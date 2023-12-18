@@ -17716,8 +17716,6 @@ function fetchStormGlassData() {
         data.hours.length = 24 * 7;
         const dailyAverageData = (0, dataCalculations_1.dailyAverage)(data.hours);
         const hourlyAverageData = (0, dataCalculations_1.hourlyData)(data.hours);
-        //   console.log(dailyAverageData);
-        //   console.log(hourlyAverageData);
         const response = {
             daily: dailyAverageData,
             hourly: hourlyAverageData,

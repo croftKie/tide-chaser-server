@@ -3,10 +3,13 @@ import dotenv from "dotenv";
 import apiRouter from "./routes/api";
 import boardRouter from "./routes/board";
 import favouritesRouter from "./routes/favourites";
+import cors from "cors";
 
 const app: express.Application = express();
 dotenv.config();
 const PORT: number = 6001;
+
+app.use(cors());
 
 app.use("/", apiRouter);
 app.use("/board", boardRouter);
