@@ -62,7 +62,7 @@ function averageWaveHeight(fullData: any, dayNum: number) {
     return new Date(e.time).getDay() === dayNum;
   });
   surfPerDay.forEach((e: any) => {
-    avgWaveHeight += e.waveHeight.noaa;
+    avgWaveHeight += e.waveHeight;
   });
   return parseFloat((avgWaveHeight / surfPerDay.length).toFixed(2));
 }
@@ -72,7 +72,7 @@ function averageTemp(fullData: any, dayNum: number) {
     return new Date(e.time).getDay() === dayNum;
   });
   weatherPerDay.forEach((e: any) => {
-    avgTemp += e.airTemperature.noaa;
+    avgTemp += e.airTemperature;
   });
   return Math.round(avgTemp / weatherPerDay.length);
 }
@@ -82,7 +82,7 @@ function averagecloud(fullData: any, dayNum: number) {
     return new Date(e.time).getDay() === dayNum;
   });
   cloudPerDay.forEach((e: any) => {
-    avgCloud += e.cloudCover.noaa;
+    avgCloud += e.cloudCover;
   });
   return Math.floor(avgCloud / cloudPerDay.length);
 }
@@ -92,7 +92,7 @@ function averageRain(fullData: any, dayNum: number) {
     return new Date(e.time).getDay() === dayNum;
   });
   rainPerDay.forEach((e: any) => {
-    avgRain += e.precipitation.noaa;
+    avgRain += e.precipitation;
   });
   return parseFloat((avgRain / rainPerDay.length).toFixed(2));
 }
