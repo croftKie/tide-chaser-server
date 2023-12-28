@@ -7,4 +7,6 @@ const express_1 = __importDefault(require("express"));
 const boardController_1 = require("../controllers/boardController");
 const boardRouter = express_1.default.Router();
 boardRouter.get("/", boardController_1.fetchBoard);
+boardRouter.get("/single", boardController_1.fetchBoardSingle);
+boardRouter.post("/", boardController_1.insertBoard);
 exports.default = boardRouter;

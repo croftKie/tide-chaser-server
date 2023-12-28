@@ -20,7 +20,12 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield userModel_1.default.findOne({ email: loginDetails.email });
     bcrypt_1.default.compare(loginDetails.password, user === null || user === void 0 ? void 0 : user.hash, function (err, result) {
         if (result === true) {
-            res.send({ status: 1, message: "login complete", access: true });
+            res.send({
+                status: 1,
+                message: "login complete",
+                access: true,
+                user_id: user === null || user === void 0 ? void 0 : user._id,
+            });
         }
         else {
             res.send({
@@ -32,22 +37,32 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     });
 });
 exports.loginUser = loginUser;
-const signupUser = (req, res) => {
-    console.log(req.body);
+const signupUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const saltRounds = 10;
-    bcrypt_1.default.genSalt(saltRounds, function (err, salt) {
-        bcrypt_1.default.hash(req.body.password, salt, function (err, hash) {
-            return __awaiter(this, void 0, void 0, function* () {
-                const user = new userModel_1.default({
-                    first_name: req.body.first_name,
-                    last_name: req.body.last_name,
-                    email: req.body.email,
-                    hash: hash,
+    const userCheck = yield userModel_1.default.findOne({ email: req.body.email });
+    if (userCheck) {
+        res.send({ status: 0, message: "user already exists" });
+    }
+    else {
+        bcrypt_1.default.genSalt(saltRounds, function (err, salt) {
+            bcrypt_1.default.hash(req.body.password, salt, function (err, hash) {
+                return __awaiter(this, void 0, void 0, function* () {
+                    const user = new userModel_1.default({
+                        first_name: req.body.first_name,
+                        last_name: req.body.last_name,
+                        email: req.body.email,
+                        hash: hash,
+                        board: "",
+                    });
+                    yield user.save();
+                    res.send({
+                        status: 1,
+                        message: "user created",
+                        user_id: user._id.toString(),
+                    });
                 });
-                yield user.save();
-                res.send("complete");
             });
         });
-    });
-};
+    }
+});
 exports.signupUser = signupUser;

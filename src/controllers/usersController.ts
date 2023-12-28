@@ -12,7 +12,12 @@ export const loginUser = async (
 
   bcrypt.compare(loginDetails.password, user?.hash!, function (err, result) {
     if (result === true) {
-      res.send({ status: 1, message: "login complete", access: true });
+      res.send({
+        status: 1,
+        message: "login complete",
+        access: true,
+        user_id: user?._id,
+      });
     } else {
       res.send({
         status: 0,
@@ -23,21 +28,33 @@ export const loginUser = async (
   });
 };
 
-export const signupUser = (req: express.Request, res: express.Response) => {
-  console.log(req.body);
+export const signupUser = async (
+  req: express.Request,
+  res: express.Response
+) => {
   const saltRounds = 10;
 
-  bcrypt.genSalt(saltRounds, function (err, salt) {
-    bcrypt.hash(req.body.password, salt, async function (err, hash) {
-      const user = new User({
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        email: req.body.email,
-        hash: hash,
-      });
-      await user.save();
+  const userCheck = await User.findOne({ email: req.body.email });
 
-      res.send("complete");
+  if (userCheck) {
+    res.send({ status: 0, message: "user already exists" });
+  } else {
+    bcrypt.genSalt(saltRounds, function (err, salt) {
+      bcrypt.hash(req.body.password, salt, async function (err, hash) {
+        const user = new User({
+          first_name: req.body.first_name,
+          last_name: req.body.last_name,
+          email: req.body.email,
+          hash: hash,
+          board: "",
+        });
+        await user.save();
+        res.send({
+          status: 1,
+          message: "user created",
+          user_id: user._id.toString(),
+        });
+      });
     });
-  });
+  }
 };

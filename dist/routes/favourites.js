@@ -7,4 +7,5 @@ const express_1 = __importDefault(require("express"));
 const favouriteController_1 = require("../controllers/favouriteController");
 const favouritesRouter = express_1.default.Router();
 favouritesRouter.get("/", favouriteController_1.fetchFavourites);
+favouritesRouter.post("/", favouriteController_1.addFavourites);
 exports.default = favouritesRouter;

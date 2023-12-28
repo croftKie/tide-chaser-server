@@ -6,6 +6,7 @@ const userSchema = new Schema({
   last_name: String,
   email: String,
   hash: String,
+  board: String,
 });
 
 const User = model("User", userSchema);
