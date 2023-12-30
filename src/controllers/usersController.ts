@@ -53,7 +53,7 @@ export const signupUser = async (
           status: 1,
           message: "user created",
           user_id: user._id.toString(),
-          access: true,
+          access: true, //for navigate
         });
       });
     });
