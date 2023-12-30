@@ -37,7 +37,7 @@ export const signupUser = async (
   const userCheck = await User.findOne({ email: req.body.email });
 
   if (userCheck) {
-    res.send({ status: 0, message: "user already exists" });
+    res.send({ status: 0, message: "user already exists", access: false });
   } else {
     bcrypt.genSalt(saltRounds, function (err, salt) {
       bcrypt.hash(req.body.password, salt, async function (err, hash) {
@@ -53,6 +53,7 @@ export const signupUser = async (
           status: 1,
           message: "user created",
           user_id: user._id.toString(),
+          access: true,
         });
       });
     });
